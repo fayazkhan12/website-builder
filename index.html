@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Koli Business - Build Your Website Free</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Base Styles */
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+    }
+    
+    body { 
+      font-family: 'Inter', sans-serif; 
+      line-height: 1.6; 
+      color: #333; 
+      background: #f9f9f9; 
+      position: relative;
+    }
+    
+    /* Header Styles */
+    header {
+      background: #fff;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      width: 100%;
+    }
+    
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 5%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .logo a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+    
+    .logo img {
+      height: 40px;
+      margin-right: 10px;
+    }
+    
+    .logo span {
+      font-size: 20px;
+      font-weight: bold;
+      color: rgb(57, 98, 173);
+    }
+    
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+    
+    .nav-links li a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      transition: color 0.3s;
+      font-size: 1rem;
+    }
+    
+    .nav-links li a:hover {
+      color: #ff4136;
+    }
+    
+    /* Enquiry Button */
+    .enquiry-btn {
+      background: #ff4136;
+      color: white;
+      padding: 0.7rem 1.5rem;
+      border-radius: 30px;
+      font-weight: 600;
+      text-decoration: none;
+      margin-left: 1rem;
+      animation: blink 2s infinite;
+      box-shadow: 0 4px 15px rgba(255, 65, 54, 0.4);
+      transition: all 0.3s;
+    }
+    
+    .enquiry-btn:hover {
+      animation: none;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 65, 54, 0.5);
+    }
+    
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0.8; }
+      100% { opacity: 1; }
+    }
+    
+    /* Hamburger Menu */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      gap: 5px;
+    }
+    
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: #333;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+    
+    /* Hero Section */
+    .hero {
+      background: 
+        linear-gradient(rgba(0, 116, 217, 0.8), rgba(0, 31, 63, 0.8)), 
+        url('https://images.unsplash.com/photo-1544449464-e8cab52594a4?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: white;
+      padding: 2.5rem 5% 3rem;
+      text-align: center;
+    }
+    
+    .hero h1 {
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      line-height: 1.3;
+    }
+    
+    .hero p {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    /* Buttons */
+    .btn {
+      background: #ff4136;
+      color: white;
+      padding: 0.9rem 2rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-weight: 600;
+      display: inline-block;
+      text-decoration: none;
+    }
+    
+    .btn:hover {
+      background: #e63900;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 65, 54, 0.3);
+    }
+    
+    /* Main Content Styles */
+    .main-content {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 5%;
+    }
+    
+    .page-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    
+    .page-header h1 {
+      font-size: 2.5rem;
+      color: #001f3f;
+      margin-bottom: 1rem;
+    }
+    
+    .page-header p {
+      font-size: 1.2rem;
+      color: #555;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    /* Features Page Styles */
+    .features-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+    
+    .feature-item {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+    
+    .feature-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    .feature-icon {
+      font-size: 2.5rem;
+      color: #0074D9;
+      margin-bottom: 1rem;
+    }
+    
+    .feature-item h3 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      color: #001f3f;
+    }
+    
+    .feature-item p {
+      color: #555;
+      line-height: 1.6;
+    }
+    
+    /* Templates Page Styles */
+    .templates-container {
+      margin-bottom: 5rem;
+    }
+    
+    .templates-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .template-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      transition: all 0.3s ease;
+      border: 1px solid #eee;
+    }
+    
+    .template-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .template-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+    
+    .template-card:hover .template-image {
+      transform: scale(1.03);
+    }
+    
+    .template-content {
+      padding: 1.5rem;
+    }
+    
+    .template-content h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: #001f3f;
+    }
+    
+    .template-content p {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 2rem;
+      line-height: 1.5;
+    }
+    
+    .template-btn {
+      display: inline-block;
+      padding: 0.6rem 1.2rem;
+      background: #0074D9;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+    
+    .template-btn:hover {
+      background: #005bb5;
+    }
+    
+    /* Pricing Page Styles */
+    .pricing-plans {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+    
+    .pricing-card {
+      background: white;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      text-align: center;
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+    
+    .pricing-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      border-color: #0074D9;
+    }
+    
+    .pricing-card.popular {
+      border-color: #ff4136;
+      position: relative;
+    }
+    
+    .popular-badge {
+      position: absolute;
+      top: -10px;
+      right: 20px;
+      background: #ff4136;
+      color: white;
+      padding: 0.3rem 1rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: bold;
+    }
+    
+    .pricing-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #001f3f;
+    }
+    
+    .price {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #0074D9;
+      margin-bottom: 1.5rem;
+    }
+    
+    .price span {
+      font-size: 1rem;
+      color: #777;
+    }
+    
+    .pricing-features {
+      list-style: none;
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+    
+    .pricing-features li {
+      margin-bottom: 0.8rem;
+      position: relative;
+      padding-left: 1.5rem;
+    }
+    
+    .pricing-features li:before {
+      content: "\f00c";
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      position: absolute;
+      left: 0;
+      color: #0074D9;
+    }
+    
+    /* Resources Page Styles */
+    .resources-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+    
+    .resource-card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: all 0.3s ease;
+    }
+    
+    .resource-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    .resource-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    
+    .resource-content {
+      padding: 1.5rem;
+    }
+    
+    .resource-content h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: #001f3f;
+    }
+    
+    .resource-content p {
+      color: #555;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    
+    .resource-meta {
+      display: flex;
+      justify-content: space-between;
+      color: #777;
+      font-size: 0.9rem;
+    }
+    
+    /* About Page Styles */
+    .about-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 4rem;
+      align-items: center;
+    }
+    
+    .about-image {
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .about-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    
+    .about-content h2 {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: #001f3f;
+    }
+    
+    .about-content p {
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+      color: #555;
+    }
+    
+    .team-section h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 3rem;
+      color: #001f3f;
+    }
+    
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+    
+    .team-member {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    
+    .team-member:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+    
+    .team-member img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+    }
+    
+    .member-info {
+      padding: 1.5rem;
+    }
+    
+    .member-info h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: #001f3f;
+    }
+    
+    .member-info p {
+      color: #777;
+      margin-bottom: 1rem;
+    }
+    
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+    
+    .social-links a {
+      color: #0074D9;
+      font-size: 1.2rem;
+      transition: color 0.3s;
+    }
+    
+    .social-links a:hover {
+      color: #ff4136;
+    }
+
+    /* Template Preview Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1001;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.9);
+    }
+    
+    .modal-content {
+      margin: auto;
+      display: block;
+      width: 90%;
+      max-width: 1200px;
+      max-height: 90vh;
+      margin-top: 5vh;
+      animation: zoom 0.3s;
+    }
+    
+    @keyframes zoom {
+      from {transform: scale(0.8); opacity: 0}
+      to {transform: scale(1); opacity: 1}
+    }
+    
+    .close {
+      position: absolute;
+      top: 15px;
+      right: 35px;
+      color: #f1f1f1;
+      font-size: 40px;
+      font-weight: bold;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+    
+    .close:hover {
+      color: #ff4136;
+    }
+    
+    /* Features Section */
+    .section {
+      padding: 5rem 5%;
+      background: #f9f9f9;
+    }
+    
+    .section-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .section h2 {
+      text-align: center;
+      font-size: 2.3rem;
+      margin-bottom: 3rem;
+      color: #001f3f;
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    .feature-card {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .feature-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+      color: #001f3f;
+    }
+    
+    .feature-card p {
+      font-size: 1.05rem;
+      color: #555;
+      line-height: 1.5;
+    }
+    
+    /* Testimonials */
+    .testimonials {
+      position: relative;
+      padding: 0;
+      color: #333;
+      background: #f9f9f9;
+      overflow: hidden;
+    }
+    
+    .testimonials video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      opacity: 0.7;
+    }
+    
+    .testimonials .section-container {
+      position: relative;
+      z-index: 2;
+      padding: 5rem 5%;
+    }
+    
+    .testimonials h2 {
+      color: #001f3f !important;
+      text-shadow: 0 2px 4px rgba(255,255,255,0.3);
+    }
+    
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    
+    .testimonial-card {
+      background: rgba(255, 255, 255, 0.85);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(2px);
+      border: 1px solid rgba(255,255,255,0.3);
+      transition: transform 0.3s ease;
+    }
+    
+    .testimonial-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .testimonial-card p {
+      font-style: italic;
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      color: #333;
+      line-height: 1.5;
+    }
+    
+    .testimonial-card strong {
+      display: block;
+      font-size: 1.1rem;
+      color: #001f3f;
+    }
+    
+    .testimonial-card em {
+      color: #666;
+      font-size: 0.9rem;
+    }
+    
+    /* CTA Section */
+    .cta {
+      text-align: center;
+      padding: 5rem 5%;
+      background: linear-gradient(135deg, #0074D9, #001f3f);
+      color: white;
+    }
+    
+    .cta h2 {
+      font-size: 2.3rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .cta p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.5;
+    }
+    
+    /* Floating WhatsApp Button */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      background-color: #25D366;
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      text-align: center;
+      font-size: 30px;
+      box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pulse 2s infinite;
+      text-decoration: none;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    /* Floating Social Media Icons */
+    .social-float {
+      position: fixed;
+      right: 30px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      z-index: 100;
+    }
+    
+    .social-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      color: #555;
+      font-size: 20px;
+      text-decoration: none;
+    }
+    
+    .social-icon:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .social-icon.facebook:hover { color: #3b5998; }
+    .social-icon.twitter:hover { color: #1DA1F2; }
+    .social-icon.instagram:hover { color: #E1306C; }
+    .social-icon.linkedin:hover { color: #0077B5; }
+    
+    /* Footer */
+    footer {
+      background: #001f3f;
+      color: white;
+      padding: 4rem 5% 2rem;
+      text-align: center;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      text-align: left;
+      margin-bottom: 3rem;
+    }
+    
+    .footer-column h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      color: #fff;
+    }
+    
+    .footer-links {
+      list-style: none;
+    }
+    
+    .footer-links li {
+      margin-bottom: 0.8rem;
+    }
+    
+    .footer-links a {
+      color: #aaa;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .footer-links a:hover {
+      color: white;
+    }
+    
+    .copyright {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .hero h1 {
+        font-size: 2rem;
+      }
+      
+      .templates-section h2 {
+        font-size: 1.7rem;
+      }
+      
+      .template-image {
+        height: 180px;
+      }
+      
+      .about-section {
+        grid-template-columns: 1fr;
+      }
+      
+      .about-image {
+        order: -1;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 15px 5%;
+      }
+      
+      .nav-links {
+        position: fixed;
+        top: 80px;
+        left: 0;
+        right: 0;
+        background: white;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 2rem 0;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        display: none;
+      }
+      
+      .nav-links.active {
+        display: flex;
+      }
+      
+      .hamburger {
+        display: flex;
+      }
+      
+      .hero {
+        padding: 2.5rem 5% 1.5rem;
+      }
+      
+      .templates-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      }
+      
+      .testimonials video {
+        display: none;
+      }
+      
+      .testimonial-card {
+        background: rgba(255,255,255,0.95);
+      }
+      
+      .enquiry-btn {
+        display: none;
+      }
+      
+      .social-float {
+        right: 15px;
+        gap: 10px;
+      }
+      
+      .social-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+      }
+      
+      .whatsapp-float {
+        width: 50px;
+        height: 50px;
+        font-size: 25px;
+        bottom: 20px;
+        left: 20px;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+      
+      .hero p {
+        font-size: 1rem;
+      }
+      
+      .page-header h1 {
+        font-size: 2rem;
+      }
+      
+      .page-header p {
+        font-size: 1rem;
+      }
+      
+      .templates-section h2, .section h2, .cta h2 {
+        font-size: 1.7rem;
+      }
+      
+      .btn {
+        padding: 0.8rem 1.5rem;
+        font-size: 1rem;
+      }
+      
+      .templates-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .template-image {
+        height: 160px;
+      }
+      
+      .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      
+      .footer-column {
+        margin-bottom: 1.5rem;
+      }
+      
+      .pricing-plans, .resources-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .social-float {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="logo">
+        <a href="index.html">
+          <img src="logo kholi.png" alt="KooliBusiness Logo">
+          <span>KoliBusiness</span>
+        </a>
+      </div>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="feature.html">Features</a></li>
+        <li><a href="#templates">Templates</a></li>
+        <li><a href="pricing.html">Pricing</a></li>
+        <li><a href="resource.html">Resources</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="tel:+918107215810" class="enquiry-btn">+918107215810</a></li>
+      </ul>
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h1>Build Your Dream Website For Free</h1>
+    <p>Koli Business empowers you to create stunning, professional websites with our intuitive drag-and-drop builder. No technical skills required.</p>
+    <a href="new.html" class="btn">Make Your Website</a>
+  </section>
+
+  <!-- Templates Section -->
+  <section class="templates-section">
+    <div class="templates-container">
+      <center>      <h2>Stunning Templates for Every Need</h2></center><br>
+      <div class="templates-grid">
+        <div class="template-card">
+          <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?w=800&auto=format&fit=crop&q=60" alt="School Website Template" class="template-image">
+          <div class="template-content">
+            <h3>School Websites</h3>
+            <p>Professional designs perfect for educational institutions with all necessary features built-in.</p>
+            <a href="/edit.html" class="template-btn">View Template</a>
+            <button class="template-btn preview-btn" data-template="school">Preview</button>
+          </div>
+        </div>
+        <div class="template-card">
+          <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800&auto=format&fit=crop&q=60" alt="Restaurant Template" class="template-image">
+          <div class="template-content">
+            <h3>Restaurant</h3>
+            <p>Beautiful designs to showcase your menu, location, and dining experience.</p>
+            <a href="/edit.html" class="template-btn">View Template</a>
+            <button class="template-btn preview-btn" data-template="restaurant">Preview</button>
+          </div>
+        </div>
+        <div class="template-card">
+          <img src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=800&auto=format&fit=crop&q=60" alt="Online Store Template" class="template-image">
+          <div class="template-content">
+            <h3>Online Store</h3>
+            <p>Everything you need to start selling products online with beautiful product displays.</p>
+            <a href="edit.html" class="template-btn">View Template</a>
+            <button class="template-btn preview-btn" data-template="store">Preview</button>
+          </div>
+        </div>
+        <div class="template-card">
+          <img src="https://images.unsplash.com/photo-1505576399279-565b52d4ac71?w=800&auto=format&fit=crop&q=60" alt="Grocery Store Template" class="template-image">
+          <div class="template-content">
+            <h3>Grocery Store</h3>
+            <p>Perfect for supermarkets and local grocery shops to showcase products and offers.</p>
+            <a href="/edit.html" class="template-btn">View Template</a>
+            <button class="template-btn preview-btn" data-template="grocery">Preview</button>
+          </div>
+        </div>
+        <div class="template-card">
+          <img src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?w=800&auto=format&fit=crop&q=60" alt="Creative Portfolio Template" class="template-image">
+          <div class="template-content">
+            <h3>Creative Portfolio</h3>
+            <p>Showcase your work with visually stunning layouts that highlight your creativity.</p>
+            <a href="/edit.html" class="template-btn">View Template</a>
+            <button class="template-btn preview-btn" data-template="portfolio">Preview</button>
+          </div>
+        </div>
+        <div class="template-card">
+          <img src="https://images.unsplash.com/photo-1503220317375-aaad61436b1b?w=800&auto=format&fit=crop&q=60" alt="Travel Agency Template" class="template-image">
+          <div class="template-content">
+            <h3>Tour & Travel</h3>
+            <p>Showcase destinations, packages, and booking options for your travel business.</p>
+            <a href="/edit.html" class="template-btn">View Template</a>
+            <button class="template-btn preview-btn" data-template="travel">Preview</button>
+          </div>
+        </div>
+        <div class="template-card">
+          <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&auto=format&fit=crop&q=60" alt="Fitness Template" class="template-image">
+          <div class="template-content">
+            <h3>Fitness Center</h3>
+            <p>Perfect for gyms, yoga studios, and personal trainers to showcase services.</p>
+            <a href="/edit.html" class="template-btn">View Template</a>
+            <button class="template-btn preview-btn" data-template="fitness">Preview</button>
+          </div>
+        </div>
+        <div class="template-card">
+          <img src="https://media.istockphoto.com/id/175264754/photo/ensuring-her-vitals-are-nominal-before-the-procedure.webp?a=1&b=1&s=612x612&w=0&k=20&c=TfFxgKYPdb90au7_lURCbUvJ_EwNmlZ8JUQ1aehHJpc=" alt="Medical Template" class="template-image">
+          <div class="template-content">
+            <h3>Medical Clinic</h3>
+            <p>Professional designs for doctors, dentists, and healthcare providers.</p>
+            <a href="/edit.html" class="template-btn">View Template</a>
+            <button class="template-btn preview-btn" data-template="medical">Preview</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Template Preview Modal -->
+  <div id="templateModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modalImage">
+  </div>
+
+  <!-- Features Section -->
+  <section class="section" id="features">
+    <div class="section-container">
+      <h2>Everything You Need to Succeed Online</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <h3>Drag & Drop Builder</h3>
+          <p>Create beautiful websites with zero coding skills using our intuitive visual editor.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Mobile Optimized</h3>
+          <p>All websites automatically look perfect on phones, tablets and desktops.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Blazing Fast</h3>
+          <p>Lightning-fast loading times with our optimized infrastructure.</p>
+        </div>
+        <div class="feature-card">
+          <h3>SEO Tools</h3>
+          <p>Built-in SEO features to help you rank higher in search results.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Ecommerce Ready</h3>
+          <p>Sell products online with our powerful ecommerce tools.</p>
+        </div>
+        <div class="feature-card">
+          <h3>24/7 Support</h3>
+          <p>Our expert team is always available to help you succeed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section with Colorful Video Background -->
+  <section class="section testimonials">
+    <video autoplay muted loop playsinline>
+      <source src="https://videos.pexels.com/video-files/6775057/6775057-sd_640_360_30fps.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="section-container">
+      <h2>What Our Customers Say</h2>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <p>"Koli Business made it so easy to create my business website. I had zero technical skills but built a professional site in just a few hours!"</p>
+          <strong>Sarah Johnson</strong><br><em>Small Business Owner</em>
+        </div>
+        <div class="testimonial-card">
+          <p>"The templates are gorgeous and the editor is incredibly intuitive. By far the best website builder I've used!"</p>
+          <strong>Michael Chen</strong><br><em>Freelance Designer</em>
+        </div>
+        <div class="testimonial-card">
+          <p>"Our online sales increased by 200% after switching to Koli Business. The ecommerce tools are amazing."</p>
+          <strong>Emily Rodriguez</strong><br><em>Ecommerce Entrepreneur</em>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <div class="section-container">
+      <h2>Ready to Build Your Website for Free?</h2>
+      <p>Join millions of creators and businesses who trust Koli Business for their online presence.</p>
+      <a href="new.html" class="btn">Start Building Free</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-column">
+        <h3>Koli Business</h3>
+        <p>Empowering everyone to create beautiful websites without coding.</p>
+      </div>
+      <div class="footer-column">
+        <h3>Product</h3>
+        <ul class="footer-links">
+          <li><a href="features.html">Features</a></li>
+          <li><a href="#Templates">Templates</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="#">Integrations</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Resources</h3>
+        <ul class="footer-links">
+          <li><a href="resources.html">Blog</a></li>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Tutorials</a></li>
+          <li><a href="#">Webinars</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3>Company</h3>
+        <ul class="footer-links">
+          <li><a href="about.html">About</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2025 KoliBusiness. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp Button -->
+  <a href="https://wa.me/+918107215810" class="whatsapp-float" target="_blank">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- Floating Social Media Icons -->
+  <div class="social-float">
+    <a href="#" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a>
+    <a href="#" class="social-icon twitter"><i class="fab fa-twitter"></i></a>
+    <a href="#" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
+    <a href="#" class="social-icon linkedin"><i class="fab fa-linkedin-in"></i></a>
+  </div>
+
+  <script>
+    // Mobile Menu Toggle
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      hamburger.classList.toggle('active');
+    });
+
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        hamburger.classList.remove('active');
+      });
+    });
+
+    // Template Preview Modal
+    const modal = document.getElementById("templateModal");
+    const modalImg = document.getElementById("modalImage");
+    const closeBtn = document.getElementsByClassName("close")[0];
+    const previewBtns = document.querySelectorAll(".preview-btn");
+
+    // Template preview images (replace with your actual template screenshots)
+    const templatePreviews = {
+      school: "https://images.unsplash.com/photo-1588072432836-e10032774350?w=1200&auto=format&fit=crop",
+      restaurant: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&auto=format&fit=crop",
+      store: "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=1200&auto=format&fit=crop",
+      grocery: "https://images.unsplash.com/photo-1505576399279-565b52d4ac71?w=1200&auto=format&fit=crop",
+      portfolio: "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?w=1200&auto=format&fit=crop",
+      travel: "https://images.unsplash.com/photo-1503220317375-aaad61436b1b?w=1200&auto=format&fit=crop",
+      fitness: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1200&auto=format&fit=crop",
+      medical: "https://media.istockphoto.com/id/175264754/photo/ensuring-her-vitals-are-nominal-before-the-procedure.webp?w=1200&auto=format&fit=crop"
+    };
+
+    previewBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const templateType = this.getAttribute('data-template');
+        modal.style.display = "block";
+        modalImg.src = templatePreviews[templateType];
+        modalImg.alt = this.parentElement.querySelector('h3').textContent + " Preview";
+      });
+    });
+
+    closeBtn.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+
+    // Ensure images load properly
+    document.addEventListener('DOMContentLoaded', function() {
+      const images = document.querySelectorAll('.template-image');
+      images.forEach(img => {
+        img.style.opacity = 1;
+      });
+      
+      // Play video on desktop only
+      const video = document.querySelector('.testimonials video');
+      if (window.innerWidth > 768 && video) {
+        video.play().catch(e => console.log('Video autoplay prevented:', e));
+      }
+    });
+  </script>
+</body>
+</html>

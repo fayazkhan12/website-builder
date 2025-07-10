@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Widget - KoliBusiness</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== BASE STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: #3a5183;
+            transition: all 0.3s;
+        }
+        
+        a:hover {
+            color: #2c3e50;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* ===== HEADER STYLES ===== */
+        .header {
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-top {
+            background-color: #3a5183;
+            color: white;
+            padding: 10px 0;
+            font-size: 14px;
+        }
+        
+        .header-top .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .header-links a {
+            color: white;
+        }
+        
+        .header-links a:hover {
+            color: #ddd;
+        }
+        
+        .header-main {
+            padding: 15px 0;
+            background-color: white;
+        }
+        
+        .header-main .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3a5183;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo img {
+            height: 40px;
+        }
+        
+        .search-box {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 20px;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+        
+        .header-cart {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 15px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .header-cart i {
+            font-size: 20px;
+        }
+        
+        .header-cart:hover {
+            background-color: #eee;
+        }
+        
+        .cart-count {
+            background-color: #3a5183;
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        
+        /* ===== NAVIGATION ===== */
+        .main-nav {
+            background-color: #2c3e50;
+        }
+        
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+        }
+        
+        .main-nav li {
+            position: relative;
+        }
+        
+        .main-nav li:hover > .sub-menu {
+            display: block;
+        }
+        
+        .main-nav a {
+            display: block;
+            padding: 15px 20px;
+            color: white;
+        }
+        
+        .main-nav a:hover {
+            background-color: #3a5183;
+        }
+        
+        .sub-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #fff;
+            min-width: 200px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+        
+        .sub-menu li {
+            border-bottom: 1px solid #eee;
+        }
+        
+        .sub-menu a {
+            color: #333;
+            padding: 10px 15px;
+        }
+        
+        .sub-menu a:hover {
+            background-color: #f5f5f5;
+            color: #3a5183;
+        }
+        
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #3a5183;
+        }
+        
+        /* ===== BREADCRUMBS ===== */
+        .breadcrumb {
+            padding: 15px 0;
+            background-color: #f5f5f5;
+            margin-bottom: 20px;
+        }
+        
+        .breadcrumb ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .breadcrumb li {
+            margin-right: 10px;
+            font-size: 14px;
+        }
+        
+        .breadcrumb li:not(:last-child)::after {
+            content: '/';
+            margin-left: 10px;
+            color: #777;
+        }
+        
+        /* ===== PRODUCT PAGE ===== */
+        .product-page {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        @media (min-width: 992px) {
+            .product-page {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .product-images {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .main-image {
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .main-image img {
+            max-height: 400px;
+            object-fit: contain;
+        }
+        
+        .thumbnail-images {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        
+        .thumbnail {
+            border: 1px solid #ddd;
+            padding: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .thumbnail:hover {
+            border-color: #3a5183;
+        }
+        
+        .thumbnail.active {
+            border-color: #3a5183;
+            box-shadow: 0 0 0 2px rgba(58, 81, 131, 0.3);
+        }
+        
+        .product-info {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .product-title {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .product-meta {
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: #777;
+        }
+        
+        .product-meta span {
+            margin-right: 15px;
+        }
+        
+        .product-meta a {
+            color: #777;
+        }
+        
+        .product-meta a:hover {
+            color: #3a5183;
+        }
+        
+        .product-price {
+            margin-bottom: 20px;
+        }
+        
+        .price-current {
+            font-size: 28px;
+            font-weight: bold;
+            color: #3a5183;
+        }
+        
+        .price-old {
+            font-size: 18px;
+            text-decoration: line-through;
+            color: #999;
+            margin-left: 10px;
+        }
+        
+        .price-tax {
+            font-size: 14px;
+            color: #777;
+            display: block;
+        }
+        
+        .product-options {
+            margin-bottom: 20px;
+        }
+        
+        .option {
+            margin-bottom: 15px;
+        }
+        
+        .option-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .option-values {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .option-value {
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option-value:hover {
+            border-color: #3a5183;
+        }
+        
+        .option-value.active {
+            background-color: #3a5183;
+            color: white;
+            border-color: #3a5183;
+        }
+        
+        .option-value.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            position: relative;
+        }
+        
+        .option-value.disabled::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #999;
+            transform: rotate(-15deg);
+        }
+        
+        .product-quantity {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .quantity-label {
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        
+        .quantity-input {
+            display: flex;
+            align-items: center;
+        }
+        
+        .quantity-input input {
+            width: 60px;
+            text-align: center;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .quantity-btn {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .quantity-btn:first-child {
+            border-radius: 4px 0 0 4px;
+            border-right: none;
+        }
+        
+        .quantity-btn:last-child {
+            border-radius: 0 4px 4px 0;
+            border-left: none;
+        }
+        
+        .quantity-btn:hover {
+            background-color: #eee;
+        }
+        
+        .product-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+        
+        .btn-primary {
+            background-color: #3a5183;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2c3e50;
+        }
+        
+        .btn-outline {
+            background-color: white;
+            border: 1px solid #3a5183;
+            color: #3a5183;
+        }
+        
+        .btn-outline:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        .product-wishlist {
+            margin-bottom: 20px;
+        }
+        
+        .wishlist-btn {
+            display: inline-flex;
+            align-items: center;
+            color: #777;
+            cursor: pointer;
+        }
+        
+        .wishlist-btn i {
+            margin-right: 5px;
+        }
+        
+        .wishlist-btn:hover {
+            color: #d32f2f;
+        }
+        
+        .wishlist-btn.added {
+            color: #d32f2f;
+        }
+        
+        .product-share {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .share-label {
+            font-weight: bold;
+        }
+        
+        .share-icons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .share-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #777;
+            transition: all 0.3s;
+        }
+        
+        .share-icon:hover {
+            background-color: #3a5183;
+            color: white;
+        }
+        
+        /* Product Tabs */
+        .product-tabs {
+            margin-top: 30px;
+        }
+        
+        .tab-nav {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .tab-link {
+            padding: 10px 20px;
+            font-weight: 500;
+            color: #777;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+        }
+        
+        .tab-link.active {
+            color: #3a5183;
+            border-bottom-color: #3a5183;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 15px;
+            background-color: white;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .tab-content h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .tab-content p {
+            margin-bottom: 15px;
+        }
+        
+        .attribute-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .attribute-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .attribute-table th {
+            text-align: left;
+            padding: 10px;
+            background-color: #f5f5f5;
+        }
+        
+        .attribute-table td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        /* Related Products */
+        .related-products {
+            margin-top: 40px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 20px;
+        }
+        
+        @media (min-width: 576px) {
+            .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .product-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        .product-card {
+            background-color: white;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        
+        .product-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+        }
+        
+        .product-image {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .product-image img {
+            height: 150px;
+            object-fit: contain;
+        }
+        
+        .product-details {
+            padding: 15px;
+        }
+        
+        .product-name {
+            font-size: 16px;
+            margin-bottom: 10px;
+            height: 40px;
+            overflow: hidden;
+        }
+        
+        .product-name a {
+            color: #333;
+        }
+        
+        .product-name a:hover {
+            color: #3a5183;
+        }
+        
+        .product-price {
+            font-weight: bold;
+            color: #3a5183;
+            margin-bottom: 10px;
+        }
+        
+        .product-price-old {
+            text-decoration: line-through;
+            color: #999;
+            font-size: 14px;
+            margin-left: 5px;
+        }
+        
+        .product-rating {
+            color: #ffc107;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 12px;
+        }
+        
+        /* ===== FOOTER ===== */
+        .footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 40px 0 20px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        @media (min-width: 768px) {
+            .footer-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .footer-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        .footer-title {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .footer-contact p {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .footer-contact i {
+            margin-right: 10px;
+            margin-top: 3px;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 14px;
+            color: #ddd;
+        }
+        
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 991px) {
+            .header-main .container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .search-box {
+                order: 3;
+                width: 100%;
+                max-width: 100%;
+                margin: 0;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .main-nav {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: #2c3e50;
+                z-index: 99;
+            }
+            
+            .main-nav.active {
+                display: block;
+            }
+            
+            .main-nav ul {
+                flex-direction: column;
+            }
+            
+            .sub-menu {
+                position: static;
+                display: none;
+                background-color: rgba(0,0,0,0.1);
+            }
+            
+            .sub-menu.active {
+                display: block;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            .header-top .container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .header-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .product-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: 5px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            margin: 0;
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #777;
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid #eee;
+            text-align: right;
+        }
+        
+        /* Alert */
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+        
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        /* Quantity spinner */
+        .quantity-spinner {
+            display: flex;
+        }
+        
+        .quantity-spinner input {
+            width: 50px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-left: none;
+            border-right: none;
+        }
+        
+        .quantity-spinner button {
+            width: 30px;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            cursor: pointer;
+        }
+        
+        .quantity-spinner button:first-child {
+            border-radius: 4px 0 0 4px;
+        }
+        
+        .quantity-spinner button:last-child {
+            border-radius: 0 4px 4px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="header-links">
+                    <a href="#"><i class="fas fa-phone"></i> +1 (555) 123-4567</a>
+                    <a href="#"><i class="fas fa-envelope"></i> info@kolibusiness.com</a>
+                </div>
+                <div class="header-links">
+                    <a href="#"><i class="fas fa-user"></i> My Account</a>
+                    <a href="#"><i class="fas fa-heart"></i> Wishlist (3)</a>
+                    <a href="#"><i class="fas fa-shopping-cart"></i> Cart</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="header-main">
+            <div class="container">
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <a href="index.html" class="logo">
+                    <img src="https://via.placeholder.com/40x40" alt="KoliBusiness">
+                    <span>KoliBusiness</span>
+                </a>
+                
+                <div class="search-box">
+                    <input type="text" placeholder="Search for products...">
+                    <i class="fas fa-search"></i>
+                </div>
+                
+                <div class="header-cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">3</span>
+                    <span>$125.00</span>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="main-nav" id="mainNav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li>
+                    <a href="#">Categories <i class="fas fa-chevron-down"></i></a>
+                    <ul class="sub-menu">
+                        <li><a href="#">Electronics</a></li>
+                        <li><a href="#">Clothing</a></li>
+                        <li><a href="#">Home & Garden</a></li>
+                        <li><a href="#">Sports</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">New Arrivals</a></li>
+                <li><a href="#">Deals</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="container">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#">Electronics</a></li>
+                <li><a href="#">Gadgets</a></li>
+                <li>Premium Widget</li>
+            </ul>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Product Section -->
+        <section class="product-page">
+            <!-- Product Images -->
+            <div class="product-images">
+                <div class="main-image">
+                    <img src="https://via.placeholder.com/500x500" alt="Premium Widget" id="mainProductImage">
+                </div>
+                <div class="thumbnail-images">
+                    <div class="thumbnail active" onclick="changeMainImage('https://via.placeholder.com/500x500')">
+                        <img src="https://via.placeholder.com/100x100" alt="Premium Widget">
+                    </div>
+                    <div class="thumbnail" onclick="changeMainImage('https://via.placeholder.com/500x500/333')">
+                        <img src="https://via.placeholder.com/100x100/333" alt="Premium Widget">
+                    </div>
+                    <div class="thumbnail" onclick="changeMainImage('https://via.placeholder.com/500x500/555')">
+                        <img src="https://via.placeholder.com/100x100/555" alt="Premium Widget">
+                    </div>
+                    <div class="thumbnail" onclick="changeMainImage('https://via.placeholder.com/500x500/777')">
+                        <img src="https://via.placeholder.com/100x100/777" alt="Premium Widget">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product Info -->
+            <div class="product-info">
+                <h1 class="product-title">Premium Widget</h1>
+                
+                <div class="product-meta">
+                    <span>Brand: <a href="#">WidgetCo</a></span>
+                    <span>Product Code: PROD123</span>
+                    <span>Availability: <span class="text-success">In Stock</span></span>
+                </div>
+                
+                <div class="product-price">
+                    <span class="price-current">$49.99</span>
+                    <span class="price-old">$59.99</span>
+                    <span class="price-tax">Ex Tax: $45.99</span>
+                </div>
+                
+                <div class="product-options">
+                    <div class="option">
+                        <span class="option-title">Color:</span>
+                        <div class="option-values">
+                            <div class="option-value active">Black</div>
+                            <div class="option-value">White</div>
+                            <div class="option-value">Blue</div>
+                            <div class="option-value disabled">Red</div>
+                        </div>
+                    </div>
+                    
+                    <div class="option">
+                        <span class="option-title">Size:</span>
+                        <div class="option-values">
+                            <div class="option-value active">Small</div>
+                            <div class="option-value">Medium</div>
+                            <div class="option-value">Large</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-quantity">
+                    <span class="quantity-label">Qty:</span>
+                    <div class="quantity-spinner">
+                        <button onclick="decreaseQuantity()">-</button>
+                        <input type="text" value="1" id="productQuantity">
+                        <button onclick="increaseQuantity()">+</button>
+                    </div>
+                </div>
+                
+                <div class="product-buttons">
+                    <button class="btn btn-primary" onclick="addToCart()">
+                        <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
+                    <button class="btn btn-outline" onclick="buyNow()">
+                        <i class="fas fa-bolt"></i> Buy Now
+                    </button>
+                </div>
+                
+                <div class="product-wishlist">
+                    <div class="wishlist-btn" id="wishlistBtn" onclick="toggleWishlist()">
+                        <i class="far fa-heart"></i> Add to Wishlist
+                    </div>
+                </div>
+                
+                <div class="product-share">
+                    <span class="share-label">Share:</span>
+                    <div class="share-icons">
+                        <a href="#" class="share-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="share-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="share-icon"><i class="fab fa-pinterest"></i></a>
+                        <a href="#" class="share-icon"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="share-icon"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Product Tabs -->
+        <section class="product-tabs">
+            <div class="tab-nav">
+                <div class="tab-link active" onclick="openTab(event, 'description')">Description</div>
+                <div class="tab-link" onclick="openTab(event, 'specification')">Specification</div>
+                <div class="tab-link" onclick="openTab(event, 'reviews')">Reviews (3)</div>
+            </div>
+            
+            <div id="description" class="tab-content active">
+                <h3>Product Description</h3>
+                <p>The Premium Widget is our flagship product, designed with cutting-edge technology to provide unparalleled performance and durability. Whether you're a professional or a casual user, this widget will exceed your expectations.</p>
+                <p>Key features include:</p>
+                <ul>
+                    <li>High-quality materials for long-lasting use</li>
+                    <li>Ergonomic design for comfortable handling</li>
+                    <li>Advanced technology for superior performance</li>
+                    <li>Multiple color options to match your style</li>
+                    <li>Compatible with all standard widget accessories</li>
+                </ul>
+                <p>Our Premium Widget comes with a 2-year warranty and 24/7 customer support to ensure your complete satisfaction.</p>
+            </div>
+            
+            <div id="specification" class="tab-content">
+                <h3>Technical Specifications</h3>
+                <table class="attribute-table">
+                    <tr>
+                        <th>Material</th>
+                        <td>High-grade aluminum alloy</td>
+                    </tr>
+                    <tr>
+                        <th>Dimensions</th>
+                        <td>10 x 5 x 3 inches</td>
+                    </tr>
+                    <tr>
+                        <th>Weight</th>
+                        <td>1.2 lbs</td>
+                    </tr>
+                    <tr>
+                        <th>Color Options</th>
+                        <td>Black, White, Blue, Red</td>
+                    </tr>
+                    <tr>
+                        <th>Warranty</th>
+                        <td>2 years</td>
+                    </tr>
+                    <tr>
+                        <th>Manufacturer</th>
+                        <td>WidgetCo</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div id="reviews" class="tab-content">
+                <h3>Customer Reviews</h3>
+                
+                <div class="review">
+                    <div class="review-header">
+                        <span class="review-author">John D.</span>
+                        <span class="review-date">June 15, 2023</span>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <p>This widget is amazing! It exceeded all my expectations. The build quality is superb and it works perfectly. Highly recommended!</p>
+                    </div>
+                </div>
+                
+                <div class="review">
+                    <div class="review-header">
+                        <span class="review-author">Sarah M.</span>
+                        <span class="review-date">June 10, 2023</span>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <p>Great product overall. The only reason I'm not giving 5 stars is because the blue color was slightly different than shown in the picture.</p>
+                    </div>
+                </div>
+                
+                <div class="review">
+                    <div class="review-header">
+                        <span class="review-author">Robert T.</span>
+                        <span class="review-date">June 5, 2023</span>
+                        <div class="review-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <p>Absolutely worth every penny. I've tried cheaper widgets before but none compare to this one. The difference in quality is noticeable immediately.</p>
+                    </div>
+                </div>
+                
+                <button class="btn btn-outline" onclick="showReviewForm()">
+                    <i class="fas fa-pencil-alt"></i> Write a Review
+                </button>
+            </div>
+        </section>
+        
+        <!-- Related Products -->
+        <section class="related-products">
+            <h2 class="section-title">You May Also Like</h2>
+            
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/200x200" alt="Product">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-name"><a href="#">Basic Widget</a></h3>
+                        <div class="product-price">$19.99</div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <i class="far fa-star"></i>
+                            <span>(12)</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-sm btn-outline"><i class="fas fa-heart"></i></button>
+                            <button class="btn btn-sm btn-primary"><i class="fas fa-shopping-cart"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/200x200" alt="Product">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-name"><a href="#">Deluxe Widget</a></h3>
+                        <div class="product-price">$99.99 <span class="product-price-old">$119.99</span></div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>(8)</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-sm btn-outline"><i class="fas fa-heart"></i></button>
+                            <button class="btn btn-sm btn-primary"><i class="fas fa-shopping-cart"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/200x200" alt="Product">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-name"><a href="#">Widget Accessory Kit</a></h3>
+                        <div class="product-price">$29.99</div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>(15)</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-sm btn-outline"><i class="fas fa-heart"></i></button>
+                            <button class="btn btn-sm btn-primary"><i class="fas fa-shopping-cart"></i></button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="https://via.placeholder.com/200x200" alt="Product">
+                    </div>
+                    <div class="product-details">
+                        <h3 class="product-name"><a href="#">Widget Cleaning Kit</a></h3>
+                        <div class="product-price">$14.99</div>
+                        <div class="product-rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>(22)</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-sm btn-outline"><i class="fas fa-heart"></i></button>
+                            <button class="btn btn-sm btn-primary"><i class="fas fa-shopping-cart"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3 class="footer-title">Information</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Delivery Information</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3 class="footer-title">Customer Service</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Returns</a></li>
+                        <li><a href="#">Site Map</a></li>
+                        <li><a href="#">Wish List</a></li>
+                        <li><a href="#">Order History</a></li>
+                        <li><a href="#">Newsletter</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3 class="footer-title">Extras</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Brands</a></li>
+                        <li><a href="#">Gift Certificates</a></li>
+                        <li><a href="#">Affiliates</a></li>
+                        <li><a href="#">Specials</a></li>
+                        <li><a href="#">My Account</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3 class="footer-title">Contact Us</h3>
+                    <div class="footer-contact">
+                        <p><i class="fas fa-map-marker-alt"></i> 123 Business St, Commerce City, CC 12345</p>
+                        <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                        <p><i class="fas fa-envelope"></i> info@kolibusiness.com</p>
+                        <p><i class="fas fa-clock"></i> Mon-Fri: 9AM - 6PM</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 KoliBusiness. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Review Form Modal -->
+    <div class="modal" id="reviewModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Write a Review</h3>
+                <button class="modal-close" onclick="closeModal('reviewModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="reviewForm">
+                    <div class="form-group">
+                        <label>Your Name</label>
+                        <input type="text" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Your Rating</label>
+                        <div class="rating-stars">
+                            <i class="far fa-star" data-rating="1"></i>
+                            <i class="far fa-star" data-rating="2"></i>
+                            <i class="far fa-star" data-rating="3"></i>
+                            <i class="far fa-star" data-rating="4"></i>
+                            <i class="far fa-star" data-rating="5"></i>
+                            <input type="hidden" id="ratingValue" name="rating" value="0">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Your Review</label>
+                        <textarea class="form-control" rows="5" required></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" onclick="closeModal('reviewModal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit Review</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add to Cart Success Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Added to Cart</h3>
+                <button class="modal-close" onclick="closeModal('cartModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i> Premium Widget has been added to your shopping cart!
+                </div>
+                <div class="modal-actions">
+                    <button class="btn btn-outline" onclick="closeModal('cartModal')">Continue Shopping</button>
+                    <button class="btn btn-primary" onclick="window.location.href='cart.html'">View Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Mobile Menu Toggle
+        document.getElementById('mobileMenuToggle').addEventListener('click', function() {
+            document.getElementById('mainNav').classList.toggle('active');
+        });
+        
+        // Change main product image when thumbnail is clicked
+        function changeMainImage(src) {
+            document.getElementById('mainProductImage').src = src;
+            
+            // Update active thumbnail
+            document.querySelectorAll('.thumbnail').forEach(thumb => {
+                thumb.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+        }
+        
+        // Product quantity functions
+        function increaseQuantity() {
+            const input = document.getElementById('productQuantity');
+            let value = parseInt(input.value);
+            input.value = value + 1;
+        }
+        
+        function decreaseQuantity() {
+            const input = document.getElementById('productQuantity');
+            let value = parseInt(input.value);
+            if (value > 1) {
+                input.value = value - 1;
+            }
+        }
+        
+        // Add to cart function
+        function addToCart() {
+            const modal = document.getElementById('cartModal');
+            modal.classList.add('show');
+        }
+        
+        // Buy now function
+        function buyNow() {
+            // In a real app, this would add to cart and redirect to checkout
+            window.location.href = 'checkout.html';
+        }
+        
+        // Toggle wishlist
+        function toggleWishlist() {
+            const btn = document.getElementById('wishlistBtn');
+            btn.classList.toggle('added');
+            
+            if (btn.classList.contains('added')) {
+                btn.innerHTML = '<i class="fas fa-heart"></i> Added to Wishlist';
+                showAlert('Product added to your wishlist');
+            } else {
+                btn.innerHTML = '<i class="far fa-heart"></i> Add to Wishlist';
+            }
+        }
+        
+        // Product tabs
+        function openTab(evt, tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active class from all tab links
+            document.querySelectorAll('.tab-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Show the current tab and add active class
+            document.getElementById(tabName).classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+        
+        // Show review form modal
+        function showReviewForm() {
+            document.getElementById('reviewModal').classList.add('show');
+        }
+        
+        // Close modal
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('show');
+        }
+        
+        // Rating stars
+        document.querySelectorAll('.rating-stars i').forEach(star => {
+            star.addEventListener('click', function() {
+                const rating = parseInt(this.getAttribute('data-rating'));
+                const stars = this.parentElement.querySelectorAll('i');
+                
+                stars.forEach((s, index) => {
+                    if (index < rating) {
+                        s.classList.remove('far');
+                        s.classList.add('fas');
+                    } else {
+                        s.classList.remove('fas');
+                        s.classList.add('far');
+                    }
+                });
+                
+                document.getElementById('ratingValue').value = rating;
+            });
+            
+            star.addEventListener('mouseover', function() {
+                const rating = parseInt(this.getAttribute('data-rating'));
+                const stars = this.parentElement.querySelectorAll('i');
+                
+                stars.forEach((s, index) => {
+                    if (index < rating) {
+                        s.classList.remove('far');
+                        s.classList.add('fas');
+                    }
+                });
+            });
+            
+            star.addEventListener('mouseout', function() {
+                const currentRating = parseInt(document.getElementById('ratingValue').value);
+                const stars = this.parentElement.querySelectorAll('i');
+                
+                stars.forEach((s, index) => {
+                    if (index >= currentRating) {
+                        s.classList.remove('fas');
+                        s.classList.add('far');
+                    }
+                });
+            });
+        });
+        
+        // Form submission
+        document.getElementById('reviewForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            closeModal('reviewModal');
+            showAlert('Thank you for your review!');
+        });
+        
+        // Show alert message
+        function showAlert(message) {
+            const alert = document.createElement('div');
+            alert.className = 'alert alert-success';
+            alert.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+            alert.style.position = 'fixed';
+            alert.style.top = '20px';
+            alert.style.right = '20px';
+            alert.style.zIndex = '1000';
+            alert.style.maxWidth = '300px';
+            
+            document.body.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.remove();
+            }, 3000);
+        }
+        
+        // Option selection
+        document.querySelectorAll('.option-value:not(.disabled)').forEach(option => {
+            option.addEventListener('click', function() {
+                const parent = this.parentElement;
+                parent.querySelectorAll('.option-value').forEach(opt => {
+                    opt.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fayaz Khan - Professional Web Developer</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1617791160536-598cf32026fb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') center/cover;
+            opacity: 0.2;
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tagline {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.2);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        section {
+            margin-bottom: 3rem;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--secondary-color);
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .skill-card {
+            background-color: var(--light-color);
+            padding: 1.5rem;
+            border-radius: 6px;
+            transition: transform 0.3s ease;
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .skill-card h3 {
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .skill-card h3 i {
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .project-card {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .project-image {
+            height: 200px;
+            background-color: #ddd;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .project-details {
+            padding: 1.5rem;
+        }
+        
+        .project-details h3 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .project-details p {
+            margin-bottom: 1rem;
+            color: #666;
+        }
+        
+        .project-links a {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background-color: var(--secondary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-right: 0.5rem;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+        
+        .project-links a:hover {
+            background-color: var(--primary-color);
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 50px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 20px;
+            width: 2px;
+            background-color: var(--secondary-color);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -40px;
+            top: 5px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            border: 3px solid white;
+        }
+        
+        .timeline-date {
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        .contact-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        textarea {
+            min-height: 150px;
+        }
+        
+        button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        button:hover {
+            background-color: var(--primary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .contact-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .skills-grid, .projects {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="header-bg"></div>
+        <div class="header-content">
+            <h1>Fayaz Khan</h1>
+            <p class="tagline">Passionate Web Developer | HTML, CSS & JavaScript Specialist</p>
+            <p>Creating beautiful, functional, and user-friendly web experiences with clean, efficient code.</p>
+            <div class="social-links">
+                <a href="https://www.linkedin.com/in/fayaz-khan-ab54a3218/" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                <a href="https://github.com/yourusername" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://twitter.com/yourusername" target="_blank"><i class="fab fa-twitter"></i></a>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <section id="about">
+            <h2>About Me</h2>
+            <p>I'm a dedicated web developer with a strong focus on front-end technologies. My approach combines technical expertise with an eye for design, resulting in websites that are not only functional but also visually appealing and user-friendly.</p>
+            <p>What sets me apart is my commitment to writing clean, maintainable code and my attention to detail. I believe in continuous learning and staying updated with the latest web technologies to deliver modern solutions.</p>
+        </section>
+        
+        <section id="skills">
+            <h2>Technical Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <h3><i class="fab fa-html5"></i> HTML5</h3>
+                    <p>Semantic HTML5 markup with accessibility in mind. Clean, well-structured code that follows best practices.</p>
+                </div>
+                <div class="skill-card">
+                    <h3><i class="fab fa-css3-alt"></i> CSS3</h3>
+                    <p>Modern CSS including Flexbox, Grid, animations and transitions. Responsive design that works across all devices.</p>
+                </div>
+                <div class="skill-card">
+                    <h3><i class="fab fa-js"></i> JavaScript</h3>
+                    <p>ES6+ JavaScript with focus on performance. Experience with DOM manipulation, async programming and APIs.</p>
+                </div>
+                <div class="skill-card">
+                    <h3><i class="fas fa-mobile-alt"></i> Responsive Design</h3>
+                    <p>Mobile-first approach with media queries and fluid layouts that adapt to any screen size.</p>
+                </div>
+                <div class="skill-card">
+                    <h3><i class="fas fa-tachometer-alt"></i> Performance</h3>
+                    <p>Optimized code for fast loading times. Minification, lazy loading, and efficient asset management.</p>
+                </div>
+                <div class="skill-card">
+                    <h3><i class="fas fa-code-branch"></i> Version Control</h3>
+                    <p>Proficient with Git and GitHub for version control and collaborative development workflows.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="projects">
+            <h2>Featured Projects</h2>
+            <div class="projects">
+                <div class="project-card">
+                    <div class="project-image" style="background-image: url('https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                    <div class="project-details">
+                        <h3>E-Commerce Website</h3>
+                        <p>A fully responsive online store with product filtering, cart functionality and checkout process.</p>
+                        <div class="project-links">
+                            <a href="#" target="_blank">Live Demo</a>
+                            <a href="#" target="_blank">Code</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image" style="background-image: url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                    <div class="project-details">
+                        <h3>Task Management App</h3>
+                        <p>A JavaScript application for managing tasks with drag-and-drop functionality and local storage.</p>
+                        <div class="project-links">
+                            <a href="#" target="_blank">Live Demo</a>
+                            <a href="#" target="_blank">Code</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image" style="background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                    <div class="project-details">
+                        <h3>Weather Dashboard</h3>
+                        <p>Real-time weather information using a third-party API with dynamic UI updates.</p>
+                        <div class="project-links">
+                            <a href="#" target="_blank">Live Demo</a>
+                            <a href="#" target="_blank">Code</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="approach">
+            <h2>Development Approach</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Planning Phase</div>
+                    <h3>Understanding Requirements</h3>
+                    <p>I begin by thoroughly understanding project requirements and user needs to create a solid foundation for development.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Design Phase</div>
+                    <h3>UI/UX Considerations</h3>
+                    <p>Focus on creating intuitive user interfaces with attention to spacing, typography, color schemes and interactive elements.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Development Phase</div>
+                    <h3>Clean, Modular Code</h3>
+                    <p>Implementation with well-structured, commented code that follows best practices and is easy to maintain.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Testing Phase</div>
+                    <h3>Cross-Browser & Device Testing</h3>
+                    <p>Rigorous testing across browsers and devices to ensure consistent performance and appearance.</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">Delivery</div>
+                    <h3>Optimized Performance</h3>
+                    <p>Final optimization for fast loading times and smooth user experience before deployment.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="contact">
+            <h2>Get In Touch</h2>
+            <form class="contact-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group full-width">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" required>
+                </div>
+                <div class="form-group full-width">
+                    <label for="message">Message</label>
+                    <textarea id="message" required></textarea>
+                </div>
+                <div class="form-group full-width">
+                    <button type="submit">Send Message</button>
+                </div>
+            </form>
+        </section>
+    </div>
+    
+    <footer>
+        <p>&copy; <span id="year"></span> Fayaz Khan. All rights reserved.</p>
+        <p>Handcrafted with <i class="fas fa-heart" style="color: #e74c3c;"></i> and clean code</p>
+    </footer>
+
+    <script>
+        // Update copyright year
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Form submission handling
+        const form = document.querySelector('.contact-form');
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Here you would typically send the form data to a server
+            alert('Thank you for your message! I will get back to you soon.');
+            form.reset();
+        });
+    </script>
+</body>
+</html>

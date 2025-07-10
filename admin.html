@@ -1,0 +1,1442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    .sidebar {
+      width: 240px;
+      transition: all 0.3s;
+    }
+    .sidebar-collapsed {
+      margin-left: -240px;
+    }
+    .main-content {
+      transition: all 0.3s;
+    }
+    .active-nav {
+      background-color: rgba(255,255,255,0.1);
+      border-left: 3px solid #fff;
+    }
+    .badge {
+      font-size: 0.8em;
+    }
+    .table-responsive {
+      overflow-x: auto;
+    }
+    .order-item {
+      background-color: #f8f9fa;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body class="bg-light">
+<div class="d-flex">
+  <!-- Sidebar -->
+  <div class="bg-dark text-white p-3 vh-100 sidebar" id="sidebar">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h4 class="text-white">Admin Panel</h4>
+      <button class="btn btn-dark btn-sm" id="toggleSidebar">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+    <ul class="nav flex-column">
+      <li class="nav-item mb-2">
+        <a href="#dashboard-section" class="nav-link text-white active-nav" data-section="dashboard">
+          <i class="fa-solid fa-gauge"></i> Dashboard
+        </a>
+      </li>
+      <li class="nav-item mb-2">
+        <a href="#products-section" class="nav-link text-white" data-section="products">
+          <i class="fa-solid fa-box"></i> Products
+        </a>
+      </li>
+      <li class="nav-item mb-2">
+        <a href="#orders-section" class="nav-link text-white" data-section="orders">
+          <i class="fa-solid fa-cart-shopping"></i> Orders
+        </a>
+      </li>
+      <li class="nav-item mb-2">
+        <a href="#customers-section" class="nav-link text-white" data-section="customers">
+          <i class="fa-solid fa-users"></i> Customers
+        </a>
+      </li>
+      <li class="nav-item mb-2">
+        <a href="#categories-section" class="nav-link text-white" data-section="categories">
+          <i class="fa-solid fa-layer-group"></i> Categories
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container-fluid p-4 main-content" id="mainContent">
+    <!-- Dashboard Section -->
+    <div id="dashboard-section">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fa-solid fa-gauge"></i> Dashboard</h2>
+        <div>
+          <button class="btn btn-success me-2" data-bs-toggle="modal" data-bs-target="#quickAddModal">
+            <i class="fa-solid fa-plus"></i> Quick Add
+          </button>
+          <button class="btn btn-dark" id="refreshDashboard">
+            <i class="fas fa-sync-alt"></i> Refresh
+          </button>
+        </div>
+      </div>
+
+      <!-- Dashboard Metrics -->
+      <div class="row mb-4">
+        <div class="col-md-3">
+          <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+              <h5 class="card-title">Total Products</h5>
+              <p class="card-text h3" id="metricProducts">0</p>
+              <a href="#products-section" class="small text-muted">View All</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+              <h5 class="card-title">Total Orders</h5>
+              <p class="card-text h3" id="metricOrders">0</p>
+              <a href="#orders-section" class="small text-muted">View All</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+              <h5 class="card-title">Total Customers</h5>
+              <p class="card-text h3" id="metricCustomers">0</p>
+              <a href="#customers-section" class="small text-muted">View All</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+              <h5 class="card-title">Revenue</h5>
+              <p class="card-text h3" id="metricRevenue">$0</p>
+              <span class="small text-muted">This Month</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card shadow-sm h-100">
+            <div class="card-header">
+              <h5>Recent Orders</h5>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-sm">
+                  <thead>
+                    <tr>
+                      <th>Order ID</th>
+                      <th>Customer</th>
+                      <th>Amount</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="recentOrdersTable">
+                    <!-- Recent orders will be loaded here -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card shadow-sm h-100">
+            <div class="card-header">
+              <h5>Recent Customers</h5>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-sm">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Joined</th>
+                    </tr>
+                  </thead>
+                  <tbody id="recentCustomersTable">
+                    <!-- Recent customers will be loaded here -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Products Section -->
+    <div id="products-section" class="d-none">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fa-solid fa-box"></i> Products</h2>
+        <div>
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#productModal">
+            <i class="fa-solid fa-plus"></i> Add Product
+          </button>
+        </div>
+      </div>
+
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead class="table-light">
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Stock</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="productTableBody">
+                <!-- Products will be loaded here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Orders Section -->
+    <div id="orders-section" class="d-none">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fa-solid fa-cart-shopping"></i> Orders</h2>
+        <div>
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderModal">
+            <i class="fa-solid fa-plus"></i> Add Order
+          </button>
+        </div>
+      </div>
+
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead class="table-light">
+                <tr>
+                  <th>Order ID</th>
+                  <th>Customer</th>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="orderTableBody">
+                <!-- Orders will be loaded here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Customers Section -->
+    <div id="customers-section" class="d-none">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fa-solid fa-users"></i> Customers</h2>
+        <div>
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#customerModal">
+            <i class="fa-solid fa-plus"></i> Add Customer
+          </button>
+        </div>
+      </div>
+
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead class="table-light">
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Orders</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="customerTableBody">
+                <!-- Customers will be loaded here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Categories Section -->
+    <div id="categories-section" class="d-none">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fa-solid fa-layer-group"></i> Categories</h2>
+        <div>
+          <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#categoryModal">
+            <i class="fa-solid fa-plus"></i> Add Category
+          </button>
+        </div>
+      </div>
+
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered">
+              <thead class="table-light">
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Products</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="categoryTableBody">
+                <!-- Categories will be loaded here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Product Modal -->
+<div class="modal fade" id="productModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form id="productForm">
+        <div class="modal-header">
+          <h5 class="modal-title">Add/Edit Product</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="id" id="productId">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Product Name</label>
+              <input type="text" name="name" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Category</label>
+              <select name="category_id" class="form-control" id="categorySelect" required>
+                <option value="">Select Category</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Price</label>
+              <input type="number" name="price" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Quantity</label>
+              <input type="number" name="quantity" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Discount (%)</label>
+              <input type="number" name="discount" class="form-control">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Subcategory</label>
+              <input type="text" name="subcategory" class="form-control">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">SKU</label>
+              <input type="text" name="sku" class="form-control">
+            </div>
+            <div class="col-md-12">
+              <label class="form-label">Description</label>
+              <textarea name="description" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="col-md-12">
+              <label class="form-label">Product Image</label>
+              <input type="file" name="image" class="form-control">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Order Modal -->
+<div class="modal fade" id="orderModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <form id="orderForm">
+        <div class="modal-header">
+          <h5 class="modal-title">Add/Edit Order</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="id" id="orderId">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Customer</label>
+              <select name="customer_id" class="form-control" id="customerSelect" required>
+                <option value="">Select Customer</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Date</label>
+              <input type="date" name="date" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Status</label>
+              <select name="status" class="form-control" required>
+                <option value="Pending">Pending</option>
+                <option value="Processing">Processing</option>
+                <option value="Shipped">Shipped</option>
+                <option value="Completed">Completed</option>
+                <option value="Cancelled">Cancelled</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Payment Method</label>
+              <select name="payment_method" class="form-control" required>
+                <option value="Credit Card">Credit Card</option>
+                <option value="PayPal">PayPal</option>
+                <option value="Bank Transfer">Bank Transfer</option>
+                <option value="Cash on Delivery">Cash on Delivery</option>
+              </select>
+            </div>
+            <div class="col-md-12">
+              <label class="form-label">Shipping Address</label>
+              <textarea name="shipping_address" class="form-control" rows="2" required></textarea>
+            </div>
+            <div class="col-md-12">
+              <h5 class="mt-3">Order Items</h5>
+              <div id="orderItemsContainer">
+                <!-- Order items will be added here dynamically -->
+              </div>
+              <button type="button" class="btn btn-sm btn-secondary mt-2" id="addOrderItem">
+                <i class="fas fa-plus"></i> Add Item
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Order</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Customer Modal -->
+<div class="modal fade" id="customerModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="customerForm">
+        <div class="modal-header">
+          <h5 class="modal-title">Add/Edit Customer</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="id" id="customerFormId">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Name</label>
+              <input type="text" name="name" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Email</label>
+              <input type="email" name="email" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Phone</label>
+              <input type="text" name="phone" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Country</label>
+              <input type="text" name="country" class="form-control" required>
+            </div>
+            <div class="col-md-12">
+              <label class="form-label">Address</label>
+              <input type="text" name="address" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">City</label>
+              <input type="text" name="city" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Postal Code</label>
+              <input type="text" name="postal_code" class="form-control" required>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Customer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Category Modal -->
+<div class="modal fade" id="categoryModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="categoryForm">
+        <div class="modal-header">
+          <h5 class="modal-title">Add/Edit Category</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="id" id="categoryId">
+          <div class="mb-3">
+            <label class="form-label">Category Name</label>
+            <input type="text" name="name" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control"></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Image</label>
+            <input type="file" name="image" class="form-control">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Category</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Quick Add Modal -->
+<div class="modal fade" id="quickAddModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Quick Add</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="list-group">
+          <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#productModal">
+            <i class="fas fa-box me-2"></i> Add Product
+          </a>
+          <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#orderModal">
+            <i class="fas fa-shopping-cart me-2"></i> Add Order
+          </a>
+          <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#customerModal">
+            <i class="fas fa-user me-2"></i> Add Customer
+          </a>
+          <a href="#" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#categoryModal">
+            <i class="fas fa-layer-group me-2"></i> Add Category
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Order Detail Modal -->
+<div class="modal fade" id="orderDetailModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Order Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="orderDetailContent">
+        <!-- Order details will be loaded here -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Customer Detail Modal -->
+<div class="modal fade" id="customerDetailModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Customer Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="customerDetailContent">
+        <!-- Customer details will be loaded here -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Sample data storage
+
+// Initialize empty arrays for your data
+let categories = [];
+let products = [];
+let customers = [];
+let orders = [];
+
+// LocalStorage functions
+function loadFromLocalStorage() {
+  const savedCategories = localStorage.getItem('categories');
+  const savedProducts = localStorage.getItem('products');
+  const savedCustomers = localStorage.getItem('customers');
+  const savedOrders = localStorage.getItem('orders');
+  
+  if (savedCategories) categories = JSON.parse(savedCategories);
+  if (savedProducts) products = JSON.parse(savedProducts);
+  if (savedCustomers) customers = JSON.parse(savedCustomers);
+  if (savedOrders) orders = JSON.parse(savedOrders);
+}
+
+function saveToLocalStorage() {
+  localStorage.setItem('categories', JSON.stringify(categories));
+  localStorage.setItem('products', JSON.stringify(products));
+  localStorage.setItem('customers', JSON.stringify(customers));
+  localStorage.setItem('orders', JSON.stringify(orders));
+}
+
+// DOM Ready
+$(document).ready(function() {
+  loadFromLocalStorage();
+  loadAllData();
+  
+  // ... [keep all your existing event handlers and functions] ...
+  // Just make sure to add saveToLocalStorage() after each data modification
+});
+
+// Initialize sample data (optional)
+$('#initSampleData').on('click', function() {
+  if (confirm('This will load sample data. Continue?')) {
+    categories = [
+      { id: 1, name: "Electronics", description: "Electronic devices" },
+      { id: 2, name: "Clothing", description: "Apparel and accessories" }
+    ];
+    
+    products = [
+      { id: 1, name: "Sample Product", category_id: 1, price: 99.99, quantity: 10, sku: "SP001", status: "In Stock" }
+    ];
+    
+    customers = [
+      { id: 1, name: "Sample Customer", email: "customer@example.com", phone: "123-4567", 
+        address: "123 Sample St", city: "Sampleville", country: "IND", postal_code: "12345" }
+    ];
+    
+    orders = [];
+    
+    saveToLocalStorage();
+    loadAllData();
+    alert('Sample data loaded. You can now add your own data.');
+  }
+});
+
+// [Keep all your other existing functions like loadProducts(), loadCustomers(), etc.]
+
+
+// DOM Ready
+$(document).ready(function() {
+  // Load initial data
+  loadAllData();
+  
+  // Toggle sidebar
+  $('#toggleSidebar').on('click', function() {
+    $('#sidebar').toggleClass('sidebar-collapsed');
+    $('#mainContent').toggleClass('col-md-9 col-md-12');
+  });
+  
+  // Navigation between sections
+  $('.nav-link[data-section]').on('click', function(e) {
+    e.preventDefault();
+    const section = $(this).data('section');
+    
+    // Update active nav item
+    $('.nav-link').removeClass('active-nav');
+    $(this).addClass('active-nav');
+    
+    // Hide all sections
+    $('div[id$="-section"]').addClass('d-none');
+    
+    // Show selected section
+    $(`#${section}-section`).removeClass('d-none');
+    
+    // Load section data if needed
+    switch(section) {
+      case 'products':
+        loadProducts();
+        break;
+      case 'orders':
+        loadOrders();
+        break;
+      case 'customers':
+        loadCustomers();
+        break;
+      case 'categories':
+        loadCategories();
+        break;
+    }
+  });
+  
+  // Show dashboard by default
+  $('.nav-link[data-section="dashboard"]').click();
+  
+  // Customer Form Submission
+  $('#customerForm').on('submit', function(e) {
+    e.preventDefault();
+    const formData = $(this).serializeArray();
+    const customerId = $('#customerFormId').val();
+    
+    const customerData = {};
+    formData.forEach(item => {
+      customerData[item.name] = item.value;
+    });
+    
+    if (customerId) {
+      // Update existing customer
+      const index = customers.findIndex(c => c.id == customerId);
+      if (index !== -1) {
+        customers[index] = { ...customers[index], ...customerData };
+      }
+    } else {
+      // Add new customer
+      const newId = customers.length > 0 ? Math.max(...customers.map(c => c.id)) + 1 : 1;
+      customers.push({ id: newId, ...customerData });
+    }
+    
+    $('#customerModal').modal('hide');
+    loadCustomers();
+    populateCustomerSelect();
+    updateMetrics();
+    this.reset();
+  });
+  
+  // Product Form Submission
+  $('#productForm').on('submit', function(e) {
+    e.preventDefault();
+    const formData = $(this).serializeArray();
+    const productId = $('#productId').val();
+    
+    const productData = {};
+    formData.forEach(item => {
+      productData[item.name] = item.value;
+    });
+    
+    if (productId) {
+      // Update existing product
+      const index = products.findIndex(p => p.id == productId);
+      if (index !== -1) {
+        products[index] = { ...products[index], ...productData };
+        // Convert string values to numbers
+        products[index].price = parseFloat(products[index].price);
+        products[index].quantity = parseInt(products[index].quantity);
+        products[index].category_id = parseInt(products[index].category_id);
+        if (products[index].discount) {
+          products[index].discount = parseInt(products[index].discount);
+        }
+      }
+    } else {
+      // Add new product
+      const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1;
+      productData.id = newId;
+      productData.price = parseFloat(productData.price);
+      productData.quantity = parseInt(productData.quantity);
+      productData.category_id = parseInt(productData.category_id);
+      if (productData.discount) {
+        productData.discount = parseInt(productData.discount);
+      }
+      productData.status = productData.quantity > 0 ? "In Stock" : "Out of Stock";
+      products.push(productData);
+    }
+    
+    $('#productModal').modal('hide');
+    loadProducts();
+    updateMetrics();
+    this.reset();
+  });
+  
+  // Order Form Submission
+  $('#orderForm').on('submit', function(e) {
+    e.preventDefault();
+    const formData = $(this).serializeArray();
+    const orderId = $('#orderId').val();
+    
+    const orderData = {
+      items: []
+    };
+    
+    // Process form data
+    formData.forEach(item => {
+      if (item.name !== 'items[]') {
+        orderData[item.name] = item.value;
+      }
+    });
+    
+    // Process order items
+    $('.item-data').each(function() {
+      const [product_id, quantity, price] = $(this).val().split('|');
+      orderData.items.push({
+        product_id: parseInt(product_id),
+        quantity: parseInt(quantity),
+        price: parseFloat(price)
+      });
+    });
+    
+    // Calculate total amount
+    orderData.amount = orderData.items.reduce((total, item) => {
+      return total + (item.quantity * item.price);
+    }, 0);
+    
+    if (orderId) {
+      // Update existing order
+      const index = orders.findIndex(o => o.id == orderId);
+      if (index !== -1) {
+        orders[index] = { ...orders[index], ...orderData };
+      }
+    } else {
+      // Add new order
+      const newId = orders.length > 0 ? Math.max(...orders.map(o => o.id)) + 1 : 1;
+      orders.push({ id: newId, ...orderData });
+    }
+    
+    $('#orderModal').modal('hide');
+    loadOrders();
+    updateMetrics();
+    this.reset();
+    $('#orderItemsContainer').empty();
+  });
+  
+  // Category Form Submission
+  $('#categoryForm').on('submit', function(e) {
+    e.preventDefault();
+    const formData = $(this).serializeArray();
+    const categoryId = $('#categoryId').val();
+    
+    const categoryData = {};
+    formData.forEach(item => {
+      categoryData[item.name] = item.value;
+    });
+    
+    if (categoryId) {
+      // Update existing category
+      const index = categories.findIndex(c => c.id == categoryId);
+      if (index !== -1) {
+        categories[index] = { ...categories[index], ...categoryData };
+      }
+    } else {
+      // Add new category
+      const newId = categories.length > 0 ? Math.max(...categories.map(c => c.id)) + 1 : 1;
+      categories.push({ id: newId, ...categoryData });
+    }
+    
+    $('#categoryModal').modal('hide');
+    loadCategories();
+    populateCategorySelect();
+    this.reset();
+  });
+  
+  // Add Order Item
+  $('#addOrderItem').on('click', function() {
+    const itemHtml = `
+      <div class="order-item border p-2 mb-2">
+        <div class="row g-2">
+          <div class="col-md-5">
+            <select class="form-control product-select" required>
+              <option value="">Select Product</option>
+              ${products.map(p => `<option value="${p.id}|${p.price}">${p.name} (// New INR formatting
+'₹' + amount.toLocaleString('en-IN', {maximumFractionDigits: 2, minimumFractionDigits: 2}))</option>`).join('')}
+            </select>
+          </div>
+          <div class="col-md-3">
+            <input type="number" class="form-control quantity" min="1" value="1" required>
+          </div>
+          <div class="col-md-3">
+            <input type="text" class="form-control price" readonly>
+          </div>
+          <div class="col-md-1">
+            <button type="button" class="btn btn-danger btn-sm remove-item">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <input type="hidden" name="items[]" class="item-data">
+      </div>
+    `;
+    $('#orderItemsContainer').append(itemHtml);
+    
+    // Initialize the new item
+    initOrderItem($('#orderItemsContainer .order-item').last());
+  });
+  
+  // Edit Customer
+  $(document).on('click', '.edit-customer', function() {
+    const id = $(this).data('id');
+    const customer = customers.find(c => c.id == id);
+    
+    if (customer) {
+      $('#customerFormId').val(customer.id);
+      $('#customerForm input[name="name"]').val(customer.name);
+      $('#customerForm input[name="email"]').val(customer.email);
+      $('#customerForm input[name="phone"]').val(customer.phone);
+      $('#customerForm input[name="address"]').val(customer.address);
+      $('#customerForm input[name="city"]').val(customer.city);
+      $('#customerForm input[name="country"]').val(customer.country);
+      $('#customerForm input[name="postal_code"]').val(customer.postal_code);
+      $('#customerModal').modal('show');
+    }
+  });
+  
+  // Delete Customer
+  $(document).on('click', '.delete-customer', function() {
+    const id = $(this).data('id');
+    if (confirm('Are you sure you want to delete this customer?')) {
+      customers = customers.filter(c => c.id != id);
+      // Also remove orders for this customer (optional)
+      orders = orders.filter(o => o.customer_id != id);
+      loadCustomers();
+      loadOrders();
+      populateCustomerSelect();
+      updateMetrics();
+    }
+  });
+  
+  // Edit Product
+  $(document).on('click', '.edit-product', function() {
+    const id = $(this).data('id');
+    const product = products.find(p => p.id == id);
+    
+    if (product) {
+      $('#productId').val(product.id);
+      $('#productForm input[name="name"]').val(product.name);
+      $('#productForm select[name="category_id"]').val(product.category_id);
+      $('#productForm input[name="price"]').val(product.price);
+      $('#productForm input[name="quantity"]').val(product.quantity);
+      $('#productForm input[name="discount"]').val(product.discount || '');
+      $('#productForm input[name="subcategory"]').val(product.subcategory || '');
+      $('#productForm input[name="sku"]').val(product.sku || '');
+      $('#productForm textarea[name="description"]').val(product.description || '');
+      $('#productModal').modal('show');
+    }
+  });
+  
+  // Delete Product
+  $(document).on('click', '.delete-product', function() {
+    const id = $(this).data('id');
+    if (confirm('Are you sure you want to delete this product?')) {
+      products = products.filter(p => p.id != id);
+      // Also remove order items with this product (optional)
+      orders.forEach(order => {
+        order.items = order.items.filter(item => item.product_id != id);
+      });
+      loadProducts();
+      loadOrders();
+      updateMetrics();
+    }
+  });
+  
+  // Edit Order
+  $(document).on('click', '.edit-order', function() {
+    const id = $(this).data('id');
+    const order = orders.find(o => o.id == id);
+    
+    if (order) {
+      $('#orderId').val(order.id);
+      $('#orderForm select[name="customer_id"]').val(order.customer_id);
+      $('#orderForm input[name="date"]').val(order.date);
+      $('#orderForm select[name="status"]').val(order.status);
+      $('#orderForm select[name="payment_method"]').val(order.payment_method);
+      $('#orderForm textarea[name="shipping_address"]').val(order.shipping_address);
+      
+      // Clear existing items
+      $('#orderItemsContainer').empty();
+      
+      // Add order items
+      order.items.forEach(item => {
+        const product = products.find(p => p.id == item.product_id);
+        if (product) {
+          const itemHtml = `
+            <div class="order-item border p-2 mb-2">
+              <div class="row g-2">
+                <div class="col-md-5">
+                  <select class="form-control product-select" required>
+                    <option value="">Select Product</option>
+                    ${products.map(p => `<option value="${p.id}|${p.price}" ${p.id == product.id ? 'selected' : ''}>${p.name} ($${p.price.toFixed(2)})</option>`).join('')}
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <input type="number" class="form-control quantity" min="1" value="${item.quantity}" required>
+                </div>
+                <div class="col-md-3">
+                  <input type="text" class="form-control price" value="${product.price.}" readonly>
+                </div>
+                <div class="col-md-1">
+                  <button type="button" class="btn btn-danger btn-sm remove-item">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <input type="hidden" name="items[]" class="item-data" value="${product.id}|${item.quantity}|${product.price}">
+            </div>
+          `;
+          $('#orderItemsContainer').append(itemHtml);
+          
+          // Initialize the new item
+          initOrderItem($('#orderItemsContainer .order-item').last());
+        }
+      });
+      
+      $('#orderModal').modal('show');
+    }
+  });
+  
+  // Delete Order
+  $(document).on('click', '.delete-order', function() {
+    const id = $(this).data('id');
+    if (confirm('Are you sure you want to delete this order?')) {
+      orders = orders.filter(o => o.id != id);
+      loadOrders();
+      updateMetrics();
+    }
+  });
+  
+  // Edit Category
+  $(document).on('click', '.edit-category', function() {
+    const id = $(this).data('id');
+    const category = categories.find(c => c.id == id);
+    
+    if (category) {
+      $('#categoryId').val(category.id);
+      $('#categoryForm input[name="name"]').val(category.name);
+      $('#categoryForm textarea[name="description"]').val(category.description || '');
+      $('#categoryModal').modal('show');
+    }
+  });
+  
+  // Delete Category
+  $(document).on('click', '.delete-category', function() {
+    const id = $(this).data('id');
+    if (confirm('Are you sure you want to delete this category?')) {
+      categories = categories.filter(c => c.id != id);
+      // Also remove products in this category (optional)
+      products = products.filter(p => p.category_id != id);
+      loadCategories();
+      loadProducts();
+      populateCategorySelect();
+      updateMetrics();
+    }
+  });
+  
+  // View Order Details
+  $(document).on('click', '.view-order', function() {
+    const id = $(this).data('id');
+    const order = orders.find(o => o.id == id);
+    
+    if (order) {
+      const customer = customers.find(c => c.id == order.customer_id);
+      let itemsHtml = '';
+      
+      order.items.forEach(item => {
+        const product = products.find(p => p.id == item.product_id);
+        itemsHtml += `
+          <tr>
+            <td>${product ? product.name : 'Product not found'}</td>
+            <td>${item.quantity}</td>
+            <td>$${item.price.toFixed(2)}</td>
+            <td>$${(item.quantity * item.price).toFixed(2)}</td>
+          </tr>
+        `;
+      });
+      
+      $('#orderDetailContent').html(`
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <h5>Order Information</h5>
+            <p><strong>Order ID:</strong> ${order.id}</p>
+            <p><strong>Date:</strong> ${order.date}</p>
+            <p><strong>Status:</strong> ${order.status}</p>
+            <p><strong>Payment Method:</strong> ${order.payment_method}</p>
+            <p><strong>Total Amount:</strong> $${order.amount ? order.amount.toFixed(2) : '0.00'}</p>
+          </div>
+          <div class="col-md-6">
+            <h5>Customer Information</h5>
+            <p><strong>Name:</strong> ${customer ? customer.name : 'Customer not found'}</p>
+            <p><strong>Email:</strong> ${customer ? customer.email : ''}</p>
+            <p><strong>Phone:</strong> ${customer ? customer.phone : ''}</p>
+            <p><strong>Shipping Address:</strong> ${order.shipping_address}</p>
+          </div>
+        </div>
+        <h5>Order Items</h5>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${itemsHtml}
+          </tbody>
+        </table>
+      `);
+      
+      $('#orderDetailModal').modal('show');
+    }
+  });
+  
+  // View Customer Details
+  $(document).on('click', '.view-customer', function() {
+    const id = $(this).data('id');
+    const customer = customers.find(c => c.id == id);
+    
+    if (customer) {
+      const customerOrders = orders.filter(o => o.customer_id == id);
+      
+      let ordersHtml = '';
+      customerOrders.forEach(order => {
+        const amount = order.items.reduce((total, item) => total + (item.quantity * item.price), 0);
+        ordersHtml += `
+          <tr>
+            <td>${order.id}</td>
+            <td>${order.date}</td>
+            <td>$${amount.toFixed(2)}</td>
+            <td>${order.status}</td>
+          </tr>
+        `;
+      });
+      
+      $('#customerDetailContent').html(`
+        <div class="row mb-4">
+          <div class="col-md-6">
+            <h5>Customer Information</h5>
+            <p><strong>ID:</strong> ${customer.id}</p>
+            <p><strong>Name:</strong> ${customer.name}</p>
+            <p><strong>Email:</strong> ${customer.email}</p>
+            <p><strong>Phone:</strong> ${customer.phone}</p>
+          </div>
+          <div class="col-md-6">
+            <h5>Address</h5>
+            <p>${customer.address}</p>
+            <p>${customer.city}, ${customer.country} ${customer.postal_code}</p>
+          </div>
+        </div>
+        <h5>Order History (${customerOrders.length})</h5>
+        ${customerOrders.length > 0 ? `
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Order ID</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${ordersHtml}
+            </tbody>
+          </table>
+        ` : '<p>No orders found for this customer.</p>'}
+      `);
+      
+      $('#customerDetailModal').modal('show');
+    }
+  });
+  
+  // Refresh Dashboard
+  $('#refreshDashboard').on('click', function() {
+    updateMetrics();
+    loadRecentData();
+  });
+});
+
+// Initialize order item functionality
+function initOrderItem(itemElement) {
+  const productSelect = itemElement.find('.product-select');
+  const quantityInput = itemElement.find('.quantity');
+  const priceInput = itemElement.find('.price');
+  const itemData = itemElement.find('.item-data');
+  const removeBtn = itemElement.find('.remove-item');
+  
+  // Update item data when product or quantity changes
+  function updateItemData() {
+    const productValue = productSelect.val();
+    const quantity = quantityInput.val();
+    
+    if (productValue) {
+      const [product_id, price] = productValue.split('|');
+      priceInput.val(price);
+      itemData.val(`${product_id}|${quantity}|${price}`);
+    } else {
+      priceInput.val('');
+      itemData.val('');
+    }
+  }
+  
+  productSelect.on('change', updateItemData);
+  quantityInput.on('change', updateItemData);
+  
+  // Remove item
+  removeBtn.on('click', function() {
+    itemElement.remove();
+  });
+  
+  // Initialize data if product is already selected
+  if (productSelect.val()) {
+    updateItemData();
+  }
+}
+
+// Load all initial data
+function loadAllData() {
+  loadProducts();
+  loadOrders();
+  loadCustomers();
+  loadCategories();
+  populateCustomerSelect();
+  populateCategorySelect();
+  updateMetrics();
+  loadRecentData();
+}
+
+// Load products into the table
+function loadProducts() {
+  const tbody = $('#productTableBody');
+  tbody.empty();
+  
+  products.forEach(product => {
+    const category = categories.find(c => c.id == product.category_id);
+    const categoryName = category ? category.name : 'Uncategorized';
+    
+    tbody.append(`
+      <tr>
+        <td>${product.id}</td>
+        <td>${product.name}</td>
+        <td>${categoryName}</td>
+        <td>$${product.price.toFixed(2)}</td>
+        <td>${product.quantity}</td>
+        <td>
+          <span class="badge ${product.status === 'In Stock' ? 'bg-success' : product.status === 'Low Stock' ? 'bg-warning text-dark' : 'bg-danger'}">
+            ${product.status}
+          </span>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-primary edit-product" data-id="${product.id}">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="btn btn-sm btn-danger delete-product" data-id="${product.id}">
+            <i class="fas fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    `);
+  });
+}
+
+// Load orders into the table
+function loadOrders() {
+  const tbody = $('#orderTableBody');
+  tbody.empty();
+  
+  orders.forEach(order => {
+    const customer = customers.find(c => c.id == order.customer_id);
+    const customerName = customer ? customer.name : 'Customer not found';
+    const amount = order.items.reduce((total, item) => total + (item.quantity * item.price), 0);
+    
+    tbody.append(`
+      <tr>
+        <td>${order.id}</td>
+        <td>${customerName}</td>
+        <td>${order.date}</td>
+        <td>$${amount.toFixed(2)}</td>
+        <td>
+          <span class="badge ${getStatusBadgeClass(order.status)}">${order.status}</span>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-primary edit-order" data-id="${order.id}">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="btn btn-sm btn-danger delete-order" data-id="${order.id}">
+            <i class="fas fa-trash"></i>
+          </button>
+          <button class="btn btn-sm btn-info view-order" data-id="${order.id}">
+            <i class="fas fa-eye"></i>
+          </button>
+        </td>
+      </tr>
+    `);
+  });
+}
+
+// Load customers into the table
+function loadCustomers() {
+  const tbody = $('#customerTableBody');
+  tbody.empty();
+  
+  customers.forEach(customer => {
+    const orderCount = orders.filter(o => o.customer_id == customer.id).length;
+    
+    tbody.append(`
+      <tr>
+        <td>${customer.id}</td>
+        <td>${customer.name}</td>
+        <td>${customer.email}</td>
+        <td>${customer.phone}</td>
+        <td>${orderCount}</td>
+        <td>
+          <button class="btn btn-sm btn-primary edit-customer" data-id="${customer.id}">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="btn btn-sm btn-danger delete-customer" data-id="${customer.id}">
+            <i class="fas fa-trash"></i>
+          </button>
+          <button class="btn btn-sm btn-info view-customer" data-id="${customer.id}">
+            <i class="fas fa-eye"></i>
+          </button>
+        </td>
+      </tr>
+    `);
+  });
+}
+
+// Load categories into the table
+function loadCategories() {
+  const tbody = $('#categoryTableBody');
+  tbody.empty();
+  
+  categories.forEach(category => {
+    const productCount = products.filter(p => p.category_id == category.id).length;
+    
+    tbody.append(`
+      <tr>
+        <td>${category.id}</td>
+        <td>${category.name}</td>
+        <td>${category.description || '-'}</td>
+        <td>${productCount}</td>
+        <td>
+          <button class="btn btn-sm btn-primary edit-category" data-id="${category.id}">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="btn btn-sm btn-danger delete-category" data-id="${category.id}">
+            <i class="fas fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    `);
+  });
+}
+
+// Load recent data for dashboard
+function loadRecentData() {
+  // Recent orders (last 5)
+  const recentOrders = [...orders].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
+  const recentOrdersTable = $('#recentOrdersTable');
+  recentOrdersTable.empty();
+  
+  recentOrders.forEach(order => {
+    const customer = customers.find(c => c.id == order.customer_id);
+    const amount = order.items.reduce((total, item) => total + (item.quantity * item.price), 0);
+    
+    recentOrdersTable.append(`
+      <tr>
+        <td>${order.id}</td>
+        <td>${customer ? customer.name : 'Customer not found'}</td>
+        <td>$${amount.toFixed(2)}</td>
+        <td>
+          <span class="badge ${getStatusBadgeClass(order.status)}">${order.status}</span>
+        </td>
+      </tr>
+    `);
+  });
+  
+  // Recent customers (last 5)
+  const recentCustomers = [...customers].slice(-5).reverse();
+  const recentCustomersTable = $('#recentCustomersTable');
+  recentCustomersTable.empty();
+  
+  recentCustomers.forEach(customer => {
+    recentCustomersTable.append(`
+      <tr>
+        <td>${customer.name}</td>
+        <td>${customer.email}</td>
+        <td>Today</td>
+      </tr>
+    `);
+  });
+}
+
+// Populate customer select dropdown in order form
+function populateCustomerSelect() {
+  const select = $('#customerSelect');
+  select.empty();
+  select.append('<option value="">Select Customer</option>');
+  
+  customers.forEach(customer => {
+    select.append(`<option value="${customer.id}">${customer.name} (${customer.email})</option>`);
+  });
+}
+
+// Populate category select dropdown in product form
+function populateCategorySelect() {
+  const select = $('#categorySelect');
+  select.empty();
+  select.append('<option value="">Select Category</option>');
+  
+  categories.forEach(category => {
+    select.append(`<option value="${category.id}">${category.name}</option>`);
+  });
+}
+
+// Update dashboard metrics
+function updateMetrics() {
+  $('#metricProducts').text(products.length);
+  $('#metricOrders').text(orders.length);
+  $('#metricCustomers').text(customers.length);
+  
+  // Calculate total revenue
+  const revenue = orders.reduce((total, order) => {
+    const orderTotal = order.items.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+    return total + orderTotal;
+  }, 0);
+  $('#metricRevenue').text('$' + revenue.toFixed(2));
+}
+
+// Helper function to get badge class based on order status
+function getStatusBadgeClass(status) {
+  switch(status) {
+    case 'Pending': return 'bg-warning text-dark';
+    case 'Processing': return 'bg-primary';
+    case 'Shipped': return 'bg-info text-dark';
+    case 'Completed': return 'bg-success';
+    case 'Cancelled': return 'bg-danger';
+    default: return 'bg-secondary';
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>D.A.V. Public School</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f5f7fa;
+      color: #333;
+    }
+    header {
+      background: #004080;
+      color: white;
+      padding: 20px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+      text-align: center;
+    }
+    .logo-container {
+      position: absolute;
+      top: 0px;
+      left: 30px;
+      border-radius: 50%;
+      overflow: hidden;
+      width: 80px;
+      height: 80px;
+      display: none;
+    }
+    .logo-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .upload-logo-btn {
+      position: absolute;
+      bottom: 20px;
+      left: 30px;
+      background: #fff;
+      border: none;
+      padding: 10px;
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      z-index: 10;
+    }
+    .upload-logo-btn input[type="file"] {
+      display: none;
+    }
+    .upload-logo-btn i {
+      font-size: 24px;
+      color: #004080;
+    }
+    .editable {
+      border: 2px dashed transparent;
+      padding: 5px;
+    }
+    .editable:hover {
+      border-color: #ccc;
+      background: #fefefe;
+      cursor: text;
+    }
+    .section {
+      padding: 40px 30px;
+    }
+    .hero {
+      background: url('https://images.unsplash.com/photo-1580582932707-520aed937b7b?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center/cover;
+      color: white;
+      padding: 80px 30px;
+      text-align: center;
+    }
+    .hero h2 {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+    .message, .admissions, .events, .gallery, .contact, .requirements {
+      background: white;
+      margin: 20px 0;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    .gallery img {
+      width: 100%;
+      max-width: 300px;
+      margin: 10px;
+      border-radius: 8px;
+    }
+    .contact iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+      margin-top: 10px;
+    }
+    form input, form textarea, form button, form select {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    form button {
+      background: #004080;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .toolbar {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #004080;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      z-index: 999;
+    }
+    .toolbar button {
+      background: white;
+      color: #004080;
+      border: none;
+      padding: 8px 12px;
+      font-weight: bold;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .upload-section {
+      margin-top: 20px;
+      display: flex;
+      justify-content: flex-start;
+      gap: 10px;
+      align-items: center;
+    }
+    .requirements {
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+
+    
+  <header>
+    <div class="logo-container" id="logo-container">
+      <img id="logo-img" src="" alt="Logo">
+    </div>
+    <h1 contenteditable="true" class="editable">D.A.V. Public School</h1>
+    <button class="upload-logo-btn" onclick="document.getElementById('logo-upload').click()" id="upload-btn">
+      <i class="fa fa-upload"></i>
+    </button>
+    <input type="file" id="logo-upload" style="display:none;" accept="image/*" onchange="uploadLogo()">
+  </header>
+  
+
+  <div class="toolbar">
+    <button onclick="applyTemplateChanges()">Apply Changes</button>
+    <button onclick="previewWebsite()">Preview Website</button>
+    <button onclick="downloadWebsite()">Download Website</button>
+  </div>
+
+  <section class="hero">
+    <h2 contenteditable="true" class="editable">Welcome to D.A.V. Public School</h2>
+    <p contenteditable="true" class="editable">Empowering Education for the Future</p>
+  </section>
+
+  <section class="section message">
+    <h3>Principal's Message</h3>
+    <p contenteditable="true" class="editable">At DAV Public School, we believe in nurturing young minds through a balance of academic excellence, moral values, and holistic development...</p>
+  </section>
+
+  <section class="section requirements">
+    <h3>Customize Your School Website</h3>
+    <form id="requirementForm">
+      <input type="text" id="schoolName" placeholder="Enter School Name" required>
+      <input type="text" id="tagline" placeholder="Enter School Tagline" required>
+      <textarea id="principalMsg" placeholder="Principal's Message" required></textarea>
+      <input type="text" id="event1" placeholder="Upcoming Event 1" required>
+      <input type="text" id="event2" placeholder="Upcoming Event 2" required>
+    </form>
+  </section>
+
+  <section class="section admissions">
+    <h3>Admissions Open</h3>
+    <form>
+      <input type="text" placeholder="Student Name" required>
+      <input type="email" placeholder="Parent's Email" required>
+      <input type="text" placeholder="Phone Number" required>
+      <textarea placeholder="Address" required></textarea>
+      <button type="submit">Submit</button>
+    </form>
+  </section>
+
+  <section class="section events">
+    <h3>Latest Events & Notices</h3>
+    <ul id="eventList" class="editable" contenteditable="true">
+      <li>📅 Annual Day Celebration – March 5th</li>
+      <li>📝 Admission Tests – April 10th</li>
+      <li>🎓 Parent-Teacher Meet – April 20th</li>
+    </ul>
+  </section>
+
+  <section class="section gallery">
+    <h3>Photo Gallery</h3>
+    <div style="display: flex; flex-wrap: wrap;">
+      <img src="https://images.unsplash.com/photo-1606312611444-df1fc23d62ba?auto=format&fit=crop&w=300&q=80" alt="School Campus">
+      <img src="https://images.unsplash.com/photo-1601582581261-31cbbaf3f0cc?auto=format&fit=crop&w=300&q=80" alt="Classroom">
+      <img src="https://images.unsplash.com/photo-1605745218882-9f14953b0327?auto=format&fit=crop&w=300&q=80" alt="Students">
+    </div>
+  </section>
+
+  <section class="section contact">
+    <h3>Contact Us</h3>
+    <p contenteditable="true" class="editable"><strong>Address:</strong> Sector 14, Urban Estate, Gurugram, Haryana</p>
+    <p contenteditable="true" class="editable"><strong>Email:</strong> info@davschool.com</p>
+    <iframe src="https://www.google.com/maps/embed?..." allowfullscreen></iframe>
+  </section>
+
+  <script>
+    let logoUploaded = false;
+
+    function uploadLogo() {
+      const fileInput = document.getElementById('logo-upload');
+      const logoContainer = document.getElementById('logo-container');
+      const logoImage = document.getElementById('logo-img');
+      const uploadBtn = document.getElementById('upload-btn');
+
+      const file = fileInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          logoImage.src = e.target.result;
+          logoImage.style.display = 'block';
+          logoContainer.style.display = 'block';
+          uploadBtn.style.display = 'none';
+          logoUploaded = true;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function applyTemplateChanges() {
+      const schoolName = document.getElementById('schoolName').value;
+      const tagline = document.getElementById('tagline').value;
+      const principalMsg = document.getElementById('principalMsg').value;
+      const event1 = document.getElementById('event1').value;
+      const event2 = document.getElementById('event2').value;
+
+      if (!logoUploaded) {
+        alert("Please upload a logo.");
+        return;
+      }
+
+      if (!schoolName || !tagline || !principalMsg || !event1 || !event2) {
+        alert("Please fill in all the fields.");
+        return;
+      }
+
+      document.querySelector('header h1').innerText = schoolName;
+      document.querySelector('.hero h2').innerText = tagline;
+      document.querySelector('.message p').innerText = principalMsg;
+      document.querySelector('#eventList').innerHTML = ` 
+        <li>📅 ${event1}</li>
+        <li>📝 ${event2}</li>
+      `;
+      alert('Changes applied successfully!');
+    }
+
+    function previewWebsite() {
+      const htmlContent = document.documentElement.outerHTML;
+      const newTab = window.open();
+      newTab.document.open();
+      newTab.document.write(htmlContent);
+      newTab.document.close();
+    }
+
+    function downloadWebsite() {
+      const htmlContent = document.documentElement.outerHTML;
+      const blob = new Blob([htmlContent], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "dav-public-school.html";
+      a.click();
+
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>
